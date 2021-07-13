@@ -34,7 +34,7 @@ public class UserService {
         user.setLastname(userIn.getLastname());
         user.setUsername(userIn.getUsername());
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
-        user.getRole().add(ERole.ROLE_USER);
+        user.getRoles().add(ERole.ROLE_USER);
 
         try{
             log.info("Saving new user");

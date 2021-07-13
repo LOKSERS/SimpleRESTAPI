@@ -18,13 +18,13 @@ public class Comment {
     private String username;
     @Column(nullable = false)
     private Long userId;
-    @Column(columnDefinition = "text",nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String message;
     @Column(updatable = false)
     private LocalDateTime createdDate;
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.createdDate = LocalDateTime.now();
     }
 }

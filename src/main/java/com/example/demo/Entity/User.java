@@ -3,8 +3,6 @@ package com.example.demo.Entity;
 import com.example.demo.Entity.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,8 +10,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Data
 @Entity
+@Data
 public class User implements UserDetails {
 
     @Id
@@ -21,7 +19,7 @@ public class User implements UserDetails {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Column(unique = true,updatable = false)
+    @Column(unique = true, updatable = false)
     private String username;
     @Column(nullable = false)
     private String lastname;
@@ -29,14 +27,16 @@ public class User implements UserDetails {
     private String email;
     @Column(columnDefinition = "text")
     private String bio;
-    @Column(length = 3000,nullable = false)
+    @Column(length = 3000)
     private String password;
+
     @ElementCollection(targetClass = ERole.class)
-    @CollectionTable(name="user_role",joinColumns = @JoinColumn(name="user_id"))
-    private Set<ERole> role = new HashSet<>();
+    @CollectionTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"))
+    private Set<ERole> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
-    private List<Post> postList = new LinkedList<>();
+    private List<Post> posts = new ArrayList<>();
 
     @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     @Column(updatable = false)
@@ -45,10 +45,14 @@ public class User implements UserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User(){
+    public User() {
     }
 
-    public User(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public User(Long id,
+                String username,
+                String email,
+                String password,
+                Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -57,15 +61,16 @@ public class User implements UserDetails {
     }
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.createdDate = LocalDateTime.now();
     }
 
-    /*
-    Security
-    */
+    /**
+     * SECURITY
+     */
+
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 

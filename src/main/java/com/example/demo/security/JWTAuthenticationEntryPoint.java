@@ -16,12 +16,13 @@ import java.io.IOException;
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+    public void commence(HttpServletRequest httpServletRequest,
+                         HttpServletResponse httpServletResponse,
+                         AuthenticationException e) throws IOException, ServletException {
         InvalidLoginResponse loginResponse = new InvalidLoginResponse();
-        String jsonLogginResponse = new Gson().toJson(loginResponse);
+        String jsonLoginResponse = new Gson().toJson(loginResponse);
         httpServletResponse.setContentType(SecurityConstants.CONTENT_TYPE);
         httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-        httpServletResponse.getWriter().println(jsonLogginResponse);
+        httpServletResponse.getWriter().println(jsonLoginResponse);
     }
-
 }

@@ -1,5 +1,6 @@
 package com.example.demo.web;
 
+
 import com.example.demo.payload.response.JWTTokenSuccessResponse;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.payload.response.requests.LoginRequest;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/auth/")
+@RequestMapping("/api/auth")
 @PreAuthorize("permitAll()")
 public class AuthController {
 
@@ -38,32 +39,24 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
-                                                   BindingResult bindingResult){
+                                                   BindingResult bindingResult) {
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
-        if(ObjectUtils.isEmpty(errors)){
-            return errors;
-        }
+        if (!ObjectUtils.isEmpty(errors)) return errors;
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),loginRequest.getPassword()
+                loginRequest.getUsername(),
+                loginRequest.getPassword()
         ));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JWTTokenSuccessResponse(true,jwt));
-
+        return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt));
     }
-
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult bindingResult){
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpRequest signupRequest,
+                                               BindingResult bindingResult) {
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
-        if(ObjectUtils.isEmpty(errors)){
-            return errors;
-        }
-        userService.createUser(signUpRequest);
-        return ResponseEntity.ok(new MessageResponse("User registered succesfully"));
+        if (!ObjectUtils.isEmpty(errors)) return errors;
+        userService.createUser(signupRequest);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-
-
-
 }

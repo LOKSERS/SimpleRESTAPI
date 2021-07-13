@@ -22,16 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
-    public JWTAuthenticationFilter() {
-    }
-
-    @Autowired
-    public JWTAuthenticationFilter(JWTTokenProvider jwtTokenProvider, CustomUserDetailService customUserDetailsService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.customUserDetailsService = customUserDetailsService;
-    }
-
-    public static final Logger log = LoggerFactory.getLogger(JWTTokenProvider.class);
+    public static final Logger LOG = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
     @Autowired
     private JWTTokenProvider jwtTokenProvider;
@@ -42,29 +33,26 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = getJWTFromRequest(httpServletRequest);
-            if(StringUtils.hasText(jwt)&& jwtTokenProvider.validateToken(jwt)){
+            if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
                 Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
                 User userDetails = customUserDetailsService.loadUserById(userId);
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails,null, Collections.emptyList()
+                        userDetails, null, Collections.emptyList()
                 );
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));;
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (Exception e) {
-            log.error("Can not make user Authentication");
+        } catch (Exception ex) {
+            LOG.error("Could not set user authentication");
         }
-
-        filterChain.doFilter(httpServletRequest,httpServletResponse);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-    private String getJWTFromRequest(HttpServletRequest request){
+    private String getJWTFromRequest(HttpServletRequest request) {
         String bearToken = request.getHeader(SecurityConstants.HEADER_STRING);
-        if(StringUtils.hasText(bearToken)&&bearToken.startsWith(SecurityConstants.TOKEN_PREFIX)){
+        if (StringUtils.hasText(bearToken) && bearToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             return bearToken.split(" ")[1];
         }
         return null;
     }
-
 }
