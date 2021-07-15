@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.services.CustomUserDetailService;
+import com.example.demo.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
-    private CustomUserDetailService customUserDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

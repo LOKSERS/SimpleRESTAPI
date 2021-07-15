@@ -1,10 +1,11 @@
 package com.example.demo.web;
 
 
+
 import com.example.demo.payload.response.JWTTokenSuccessResponse;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.payload.response.requests.LoginRequest;
-import com.example.demo.payload.response.requests.SignUpRequest;
+import com.example.demo.payload.response.requests.SignupRequest;
 import com.example.demo.security.JWTTokenProvider;
 import com.example.demo.security.SecurityConstants;
 import com.example.demo.services.UserService;
@@ -52,7 +53,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpRequest signupRequest,
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest,
                                                BindingResult bindingResult) {
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
         if (!ObjectUtils.isEmpty(errors)) return errors;
