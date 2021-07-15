@@ -41,7 +41,7 @@ public class ImageUploadService {
     }
 
 
-    public ImageModel uploadImageTouser(MultipartFile file, Principal principal)throws IOException{
+    public ImageModel uploadImageToUser(MultipartFile file, Principal principal)throws IOException{
         User user = getUserByPrincipal(principal);
         LOG.info("Uploading image file to User: ", user.getUsername());
 
@@ -85,7 +85,7 @@ public class ImageUploadService {
 
     }
 
-    private ImageModel getImageToPost(Long id){
+    public ImageModel getImageToPost(Long id){
         ImageModel imageModel = imageRepository.findByPostId(id).orElseThrow(()->new ImageNotFoundException("Image not found to post: " + id));
 
         if(!ObjectUtils.isEmpty(imageModel)){
