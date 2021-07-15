@@ -42,15 +42,14 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Object> updateUser(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult,Principal principal){
+    public ResponseEntity<Object> updateUser(@Valid @RequestBody UserDTO userDTO,
+                                             BindingResult bindingResult,
+                                             Principal principal) {
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
         if (!ObjectUtils.isEmpty(errors)) return errors;
-
-        User user = userService.updateUser(userDTO,principal);
-
-        UserDTO userUpdate = userFacade.userToUserDTO(user);
-
-        return new ResponseEntity<>(userUpdate,HttpStatus.OK);
+        User user = userService.updateUser(userDTO, principal);
+        UserDTO userUpdated = userFacade.userToUserDTO(user);
+        return new ResponseEntity<>(userUpdated, HttpStatus.OK);
     }
 
 }
