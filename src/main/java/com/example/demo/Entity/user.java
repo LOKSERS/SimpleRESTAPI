@@ -10,9 +10,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Entity
+@Entity(name="сuser")
 @Data
-public class User implements UserDetails {
+public class user implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,10 +45,10 @@ public class User implements UserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User() {
+    public user() {
     }
 
-    public User(Long id,
+    public user(Long id,
                 String username,
                 String email,
                 String password,

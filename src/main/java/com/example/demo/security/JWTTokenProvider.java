@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.Entity.User;
+import com.example.demo.Entity.user;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public class JWTTokenProvider {
     public static final Logger LOG = LoggerFactory.getLogger(JWTTokenProvider.class);
 
     public String generateToken(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        user user = (com.example.demo.Entity.user) authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
         Date expiryDate = new Date(now.getTime() + SecurityConstants.EXPIRATION_TIME);
         String userId = Long.toString(user.getId());

@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.Entity.User;
+import com.example.demo.Entity.user;
 import com.example.demo.Entity.enums.ERole;
 import com.example.demo.Exceptions.UserExistException;
 import com.example.demo.payload.response.requests.SignupRequest;
@@ -28,8 +28,8 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(SignupRequest userIn) {
-        User user = new User();
+    public user createUser(SignupRequest userIn) {
+        user user = new user();
         user.setEmail(userIn.getEmail());
         user.setName(userIn.getFirstname());
         user.setLastname(userIn.getLastname());
@@ -47,17 +47,17 @@ public class UserService {
 
 
 
-    public User getCurrentUser(Principal principal) {
+    public user getCurrentUser(Principal principal) {
         return getUserByPrincipal(principal);
     }
 
-    private User getUserByPrincipal(Principal principal) {
+    private user getUserByPrincipal(Principal principal) {
         String username = principal.getName();
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
     }
 
-    public User getUserById(Long id) {
+    public user getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 }

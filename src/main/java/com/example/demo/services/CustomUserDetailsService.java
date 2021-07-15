@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.Entity.User;
+import com.example.demo.Entity.user;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,20 +25,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findUserByEmail(username)
+        user user = userRepository.findUserByEmail(username)
                 .orElseThrow(()-> new UsernameNotFoundException("Username not found with username: " + username));
         return build(user);
     }
 
-    public User loadUserById(Long id) {
+    public user loadUserById(Long id) {
         return userRepository.findUserById(id).orElse(null);
     }
 
-    public static User build(User user) {
+    public static user build(user user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .collect(Collectors.toList());
-        return new User(
+        return new user(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
