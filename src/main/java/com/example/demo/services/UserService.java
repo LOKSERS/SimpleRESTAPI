@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.Entity.user;
+import com.example.demo.DTO.UserDTO;
+import com.example.demo.Entity.User;
 import com.example.demo.Entity.enums.ERole;
 import com.example.demo.Exceptions.UserExistException;
 import com.example.demo.payload.response.requests.SignupRequest;
@@ -28,8 +29,8 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public user createUser(SignupRequest userIn) {
-        user user = new user();
+    public User createUser(SignupRequest userIn) {
+        User user = new User();
         user.setEmail(userIn.getEmail());
         user.setName(userIn.getFirstname());
         user.setLastname(userIn.getLastname());
@@ -45,19 +46,26 @@ public class UserService {
         }
     }
 
+    public User updateUser(UserDTO userDTO, Principal principal){
+        User user = getUserByPrincipal(principal);
+        user.setName(userDTO.getFirstname());
+        user.setLastname(userDTO.getLastname());
+        user.setBio(userDTO.getBio());
+        return userRepository.save(user);
+    }
 
 
-    public user getCurrentUser(Principal principal) {
+    public User getCurrentUser(Principal principal) {
         return getUserByPrincipal(principal);
     }
 
-    private user getUserByPrincipal(Principal principal) {
+    private User getUserByPrincipal(Principal principal) {
         String username = principal.getName();
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
     }
 
-    public user getUserById(Long id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 }

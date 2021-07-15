@@ -12,7 +12,7 @@ import java.util.*;
 
 @Entity(name="сuser")
 @Data
-public class user implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,10 +45,10 @@ public class user implements UserDetails {
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
-    public user() {
+    public User() {
     }
 
-    public user(Long id,
+    public User(Long id,
                 String username,
                 String email,
                 String password,

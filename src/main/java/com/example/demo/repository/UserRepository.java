@@ -1,17 +1,17 @@
 package com.example.demo.repository;
 
-import com.example.demo.Entity.user;
+import com.example.demo.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<user, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<user> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
-    Optional<user> findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 
-    Optional<user> findUserById(Long id);
+    Optional<User> findUserById(Long id);
 }

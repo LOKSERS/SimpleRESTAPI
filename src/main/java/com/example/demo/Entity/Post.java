@@ -25,7 +25,7 @@ public class Post {
     @ElementCollection(targetClass = String.class)
     private Set<String> likedUsers = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
-    private com.example.demo.Entity.user user;
+    private User user;
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "post", orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
     @Column(updatable = false)
