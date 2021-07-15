@@ -50,7 +50,7 @@ public class PostService {
         return postRepository.findAllByOrderByCreatedDateDesc();
     }
 
-    public Post getPostById(Long id,Principal principal) throws PostNotFoundException {
+    public Post getPostById(Long id,Principal principal){
         User user = getUserByPrincipal(principal);
         return postRepository.findPostByIdAndUser(id,user)
                 .orElseThrow(()->new PostNotFoundException("Cannot find a post: " + user.getEmail()));
@@ -61,7 +61,7 @@ public class PostService {
         return  postRepository.findAllByUserOrderByCreatedDateDesc(user);
     }
 
-    public Post likePost(Long postId, String username) throws PostNotFoundException{
+    public Post likePost(Long postId, String username){
         Post post = postRepository.findPostById(postId)
                 .orElseThrow(()->new PostNotFoundException("Cannot find a posts"));
 
@@ -78,7 +78,7 @@ public class PostService {
     return postRepository.save(post);
     }
 
-    public void deletePost(Long postId, Principal principal) throws PostNotFoundException {//спорно
+    public void deletePost(Long postId, Principal principal){//спорно
         User user = getUserByPrincipal(principal);
 
         Post post = postRepository.findPostByIdAndUser(postId,user)
