@@ -15,7 +15,7 @@ public class ImageModel {
     @Column(nullable = false)
     private String name;
     @Lob
-    @Column(columnDefinition = "bytea")
+    @Column(columnDefinition = "bigint")
     private byte[] imageBytes;
     @JsonIgnore
     private Long userId;
